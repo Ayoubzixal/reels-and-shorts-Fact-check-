@@ -10,9 +10,9 @@ export const config = {
     geminiTranscriptionModel: process.env.GEMINI_TRANSCRIPTION_MODEL || 'gemini-2.5-flash',
     // Model for fact-check analysis
     geminiAnalysisModel: process.env.GEMINI_ANALYSIS_MODEL || 'gemini-3-flash-preview',
-    tempDir: path.join(__dirname, '../../temp'),
-    // FFmpeg binary path - use system ffmpeg on Railway, or local path for development
-    ffmpegPath: process.env.FFMPEG_PATH || path.join(__dirname, '../../../ffmpeg-temp/ffmpeg-8.0.1-essentials_build/bin'),
+    tempDir: process.env.TEMP_DIR || path.join(__dirname, '../../temp'),
+    // FFmpeg binary path - use system ffmpeg on Railway/Serv00, or local path for development
+    ffmpegPath: process.env.FFMPEG_PATH || '',
 
     // Supported languages for transcription
     supportedLanguages: [
