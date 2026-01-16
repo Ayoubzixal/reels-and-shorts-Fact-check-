@@ -1,0 +1,14 @@
+# Railway Nixpacks configuration
+# This file tells Railway to install FFmpeg and Python (needed for yt-dlp)
+
+[phases.setup]
+nixPkgs = ["ffmpeg", "python3"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run start"

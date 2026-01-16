@@ -1,5 +1,23 @@
+# Dependencies
 node_modules/
+
+# Environment files (contain secrets)
+.env
+.env.local
+
+# Build output
 dist/
+
+# Temp files
 temp/
 *.log
-.env
+
+# FFmpeg local binaries
+ffmpeg/
+
+# Old FFmpeg scripts (not needed on Railway)
+copy_ffmpeg.js
+download_ffmpeg.js
+setup-ffmpeg.js
+install_ffmpeg.bat
+install_ffmpeg.ps1

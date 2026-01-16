@@ -11,8 +11,8 @@ export const config = {
     // Model for fact-check analysis
     geminiAnalysisModel: process.env.GEMINI_ANALYSIS_MODEL || 'gemini-3-flash-preview',
     tempDir: path.join(__dirname, '../../temp'),
-    // FFmpeg binary path - goes to project root where ffmpeg-temp is located
-    ffmpegPath: path.join(__dirname, '../../../ffmpeg-temp/ffmpeg-8.0.1-essentials_build/bin'),
+    // FFmpeg binary path - use system ffmpeg on Railway, or local path for development
+    ffmpegPath: process.env.FFMPEG_PATH || path.join(__dirname, '../../../ffmpeg-temp/ffmpeg-8.0.1-essentials_build/bin'),
 
     // Supported languages for transcription
     supportedLanguages: [

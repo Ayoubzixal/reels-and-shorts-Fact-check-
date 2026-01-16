@@ -60,7 +60,7 @@ export async function downloadVideo(
                 output: path.join(videoDir, 'audio.%(ext)s'),
                 noWarnings: true,
                 noCheckCertificate: true,
-                ffmpegLocation: config.ffmpegPath,  // Use local FFmpeg
+                ffmpegLocation: process.env.FFMPEG_PATH ? config.ffmpegPath : undefined,  // Use system FFmpeg on Railway
             });
 
             // Check if MP3 was created
