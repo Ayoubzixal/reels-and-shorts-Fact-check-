@@ -1,0 +1,20 @@
+{
+    "install": "cd backend && npm install",
+    "build": "cd backend && npm run build",
+    "start": "cd backend && npm run start",
+    "watch": {
+        "install": {
+            "include": [
+                "backend/package.json"
+            ]
+        },
+        "restart": {
+            "include": [
+                "backend/dist/**/*.js"
+            ]
+        }
+    },
+    "engines": {
+        "node": "18.x"
+    }
+}
