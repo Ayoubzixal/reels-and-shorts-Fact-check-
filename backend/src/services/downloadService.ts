@@ -32,13 +32,28 @@ export async function downloadVideo(
     onProgress?.(10, 'Starting download...');
 
     try {
-        // First, get video info
+        // First, get video info with bypass options
         onProgress?.(15, 'Fetching video information...');
+
+        // Common bypass options for cloud servers
+        const bypassOptions = {
+            noWarnings: true,
+            noCheckCertificate: true,
+            // Use browser-like User-Agent
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            // Add referer
+            referer: 'https://www.google.com/',
+            // Extractor retries
+            extractorRetries: 3,
+            // Sleep between retries
+            sleepInterval: 1,
+            // Force IPv4
+            forceIpv4: true,
+        };
 
         const infoResult = await ytdlp(url, {
             dumpSingleJson: true,
-            noWarnings: true,
-            noCheckCertificate: true,
+            ...bypassOptions,
         });
 
         const videoInfo = infoResult as unknown as { title: string; duration: number };
@@ -58,8 +73,7 @@ export async function downloadVideo(
                 audioFormat: 'mp3',
                 audioQuality: 9,  // 0-9 scale, 9 = lowest quality/smallest file
                 output: path.join(videoDir, 'audio.%(ext)s'),
-                noWarnings: true,
-                noCheckCertificate: true,
+                ...bypassOptions,
                 ffmpegLocation: process.env.FFMPEG_PATH ? config.ffmpegPath : undefined,  // Use system FFmpeg on Railway
             });
 
@@ -78,8 +92,7 @@ export async function downloadVideo(
             await ytdlp(url, {
                 format: 'bestaudio',
                 output: path.join(videoDir, 'audio.%(ext)s'),
-                noWarnings: true,
-                noCheckCertificate: true,
+                ...bypassOptions,
             });
 
             // Find the downloaded audio file
