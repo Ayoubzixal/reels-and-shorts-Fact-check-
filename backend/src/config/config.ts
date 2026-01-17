@@ -4,7 +4,7 @@ import path from 'path';
 dotenv.config();
 
 export const config = {
-    port: process.env.PORT || 3001,
+    port: process.env.PORT || 3000,
     geminiApiKey: process.env.GEMINI_API_KEY || '',
     // Model for transcription
     geminiTranscriptionModel: process.env.GEMINI_TRANSCRIPTION_MODEL || 'gemini-2.5-flash',
