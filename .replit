@@ -1,0 +1,13 @@
+run = "cd backend && npm install && npm run build && npm start"
+entrypoint = "backend/src/index.ts"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "cd backend && npm start"]
+build = ["sh", "-c", "cd backend && npm install && npm run build"]
+
+[[ports]]
+localPort = 3001
+externalPort = 80
