@@ -1,0 +1,14 @@
+{
+    "name": "video-fact-checker",
+    "version": "1.0.0",
+    "description": "Video Fact Checker - AI-powered misinformation detection",
+    "scripts": {
+        "install:backend": "cd backend && npm install",
+        "build:backend": "cd backend && npm run build",
+        "start": "cd backend && npm start",
+        "dev": "cd backend && npm run dev"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
