@@ -88,18 +88,19 @@ export async function downloadVideo(
         }
 
         // Fallback: Download in original format (no FFmpeg needed)
+        // Use bestaudio/best - falls back to best video if no separate audio (like TikTok)
         if (!audioPath) {
             await ytdlp(url, {
-                format: 'bestaudio',
+                format: 'bestaudio/best',  // Falls back to 'best' if no audio-only
                 output: path.join(videoDir, 'audio.%(ext)s'),
                 ...bypassOptions,
             });
 
-            // Find the downloaded audio file
+            // Find the downloaded audio/video file
             const files = fs.readdirSync(videoDir);
             const audioFile = files.find(f =>
                 f.startsWith('audio.') &&
-                (f.endsWith('.webm') || f.endsWith('.m4a') || f.endsWith('.mp3') || f.endsWith('.opus'))
+                (f.endsWith('.webm') || f.endsWith('.m4a') || f.endsWith('.mp3') || f.endsWith('.opus') || f.endsWith('.mp4'))
             );
 
             if (audioFile) {
