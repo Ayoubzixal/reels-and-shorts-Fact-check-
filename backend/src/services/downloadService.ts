@@ -49,6 +49,10 @@ export async function downloadVideo(
             sleepInterval: 1,
             // Force IPv4
             forceIpv4: true,
+            // Use Android client - often bypasses bot detection on cloud servers
+            extractorArgs: 'youtube:player_client=android',
+            // Geo bypass for regional restrictions
+            geoBypass: true,
         };
 
         const infoResult = await ytdlp(url, {
