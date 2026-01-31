@@ -36,7 +36,10 @@ export async function downloadVideo(
         onProgress?.(15, 'Fetching video information...');
 
         // Common bypass options for cloud servers
-        const bypassOptions = {
+        const cookiesPath = path.join(__dirname, '../../cookies.txt');
+        const hasCookies = fs.existsSync(cookiesPath);
+
+        const bypassOptions: Record<string, unknown> = {
             noWarnings: true,
             noCheckCertificate: true,
             // Use browser-like User-Agent
@@ -50,6 +53,12 @@ export async function downloadVideo(
             // Force IPv4
             forceIpv4: true,
         };
+
+        // Add cookies if file exists (for Instagram/YouTube authentication)
+        if (hasCookies) {
+            bypassOptions.cookies = cookiesPath;
+            console.log('Using cookies.txt for authentication');
+        }
 
         const infoResult = await ytdlp(url, {
             dumpSingleJson: true,
