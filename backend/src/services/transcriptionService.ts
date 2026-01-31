@@ -28,8 +28,10 @@ const CHUNKING_THRESHOLD_SECONDS = 10 * 60; // Use chunking for audio > 10 minut
  */
 function getAudioDuration(audioPath: string): number {
     try {
-        // Use system ffprobe if FFMPEG_PATH is not set (Railway), otherwise use local Windows path
-        const ffprobePath = process.env.FFMPEG_PATH ? path.join(config.ffmpegPath, 'ffprobe.exe') : 'ffprobe';
+        // Use system ffprobe if ffmpegPath is not set, otherwise use local path
+        const isWindows = process.platform === 'win32';
+        const ext = isWindows ? '.exe' : '';
+        const ffprobePath = config.ffmpegPath ? path.join(config.ffmpegPath, `ffprobe${ext}`) : 'ffprobe';
         const result = execSync(
             `"${ffprobePath}" -v quiet -show_entries format=duration -of csv=p=0 "${audioPath}"`,
             { encoding: 'utf8' }
@@ -59,8 +61,10 @@ async function splitAudioIntoChunks(
     const ext = path.extname(audioPath);
     const dir = path.dirname(audioPath);
     const baseName = path.basename(audioPath, ext);
-    // Use system ffmpeg if FFMPEG_PATH is not set (Railway), otherwise use local Windows path
-    const ffmpegPath = process.env.FFMPEG_PATH ? path.join(config.ffmpegPath, 'ffmpeg.exe') : 'ffmpeg';
+    // Use system ffmpeg if ffmpegPath is not set, otherwise use local path
+    const isWindows = process.platform === 'win32';
+    const binExt = isWindows ? '.exe' : '';
+    const ffmpegPath = config.ffmpegPath ? path.join(config.ffmpegPath, `ffmpeg${binExt}`) : 'ffmpeg';
 
     let startTime = 0;
     let chunkIndex = 0;
