@@ -6,23 +6,24 @@ import { ensureTempDir } from './utils/helpers';
 
 const app = express();
 
+// Health check and root FIRST - before any other middleware for fastest response
+app.get('/', (_req, res) => {
+    res.status(200).send('OK');
+});
+
+app.get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Ensure temp directory exists
-ensureTempDir();
-
 // Routes
 app.use('/api', videoRoutes);
 
-// Health check
-app.get('/health', (_req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-// Root endpoint
-app.get('/', (_req, res) => {
+// API info endpoint
+app.get('/api-info', (_req, res) => {
     res.json({
         name: 'Video Fact-Checker API',
         version: '1.0.0',
@@ -43,19 +44,10 @@ app.get('/', (_req, res) => {
 // Start server
 const PORT = config.port;
 app.listen(PORT, () => {
-    console.log(`
-╔═══════════════════════════════════════════════════════════╗
-║         VIDEO FACT-CHECKER API SERVER                     ║
-╠═══════════════════════════════════════════════════════════╣
-║  Server running on: http://localhost:${PORT}                 ║
-║  API endpoints:     http://localhost:${PORT}/api             ║
-╠═══════════════════════════════════════════════════════════╣
-║  Prerequisites:                                           ║
-║  - yt-dlp: pip install yt-dlp                            ║
-║  - FFmpeg: https://ffmpeg.org/download.html              ║
-║  - Gemini API Key in .env file                           ║
-╚═══════════════════════════════════════════════════════════╝
-  `);
+    // Ensure temp directory exists AFTER server starts
+    ensureTempDir();
+
+    console.log(`Server running on port ${PORT}`);
 });
 
 export default app;
